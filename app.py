@@ -1,4 +1,4 @@
-from flask import Flask, send_file
+from flask import Flask, send_file, jsonify
 import os
 import time
 import requests
@@ -6,13 +6,54 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import re
 import random
-import time
+import json
 
 app = Flask(__name__)
+
+# Store chain globally
+chain = None
 
 @app.route('/')
 def home():
     return send_file('home.html')
+
+@app.route('/api/scrape', methods=['POST'])
+def api_scrape():
+    try:
+        df = scrape_lyrics()
+        return jsonify({'success': True, 'message': f'Scraped {len(df)} songs'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/train', methods=['POST'])
+def api_train():
+    global chain
+    try:
+        if not os.path.exists('maroon_5_lyrics.csv'):
+            return jsonify({'success': False, 'error': 'Please scrape lyrics first'}), 400
+        df = pd.read_csv('maroon_5_lyrics.csv')
+        chain = train_model(df)
+        with open('chain.json', 'w') as f:
+            json.dump(chain, f)
+        return jsonify({'success': True, 'message': 'Model trained successfully'})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/generate', methods=['POST'])
+def api_generate():
+    global chain
+    try:
+        if chain is None:
+            if os.path.exists('chain.json'):
+                with open('chain.json', 'r') as f:
+                    chain = json.load(f)
+            else:
+                return jsonify({'success': False, 'error': 'Please train model first'}), 400
+        song = generate_song(chain)
+        return jsonify({'success': True, 'song': song})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 
 def scrape_lyrics():
     """
@@ -57,10 +98,12 @@ def scrape_lyrics():
 
         song_name = soup.find("a", class_ = "tahoma33purple").text.replace(" Lyrics", "")
         song_names.append(song_name)
-        time.sleep(5)
+        print(f"Scraped {song_name}")
+        time.sleep(3)
 
     df = pd.DataFrame({"Title": song_names, "Lyrics": song_lyrics})
     df.to_csv('maroon_5_lyrics.csv', index=False)
+
     return df
 
 
@@ -90,11 +133,11 @@ def train_model(df):
     #create a dictionary of the words and the words that follow them
     chain = {"<START>": []}
 
-    for lyric in lines:
+    for lines in all_lyrics:
         words_in_song = []
 
-        for i in range(len(lyric)):
-            words = (lyric[i]).split()
+        for i in range(len(lines)):
+            words = (lines[i]).split()
 
             if i > 0:
                 words.insert(0, "<N>")

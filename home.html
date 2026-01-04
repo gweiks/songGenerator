@@ -131,5 +131,65 @@
         <h3>Generated Song</h3>
         <div id="songContent"></div>
     </div>
+
+    <script>
+        function showMessage(text, isError = false) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = 'message ' + (isError ? 'error' : 'success');
+            setTimeout(() => msg.className = 'message', 5000);
+        }
+
+        document.getElementById('scrapeButton').onclick = async function() {
+            this.disabled = true;
+            this.textContent = 'Scraping...';
+            try {
+                const res = await fetch('/api/scrape', {method: 'POST'});
+                const data = await res.json();
+                showMessage(data.success ? data.message : data.error, !data.success);
+            } catch (e) {
+                showMessage('Error: ' + e.message, true);
+            }
+            this.disabled = false;
+            this.textContent = 'Scrape Maroon 5 lyrics';
+        };
+
+        document.getElementById('trainButton').onclick = async function() {
+            this.disabled = true;
+            this.textContent = 'Training...';
+            try {
+                const res = await fetch('/api/train', {method: 'POST'});
+                const data = await res.json();
+                showMessage(data.success ? data.message : data.error, !data.success);
+            } catch (e) {
+                showMessage('Error: ' + e.message, true);
+            }
+            this.disabled = false;
+            this.textContent = 'Train Unigram Model';
+        };
+
+        document.getElementById('generateButton').onclick = async function() {
+            this.disabled = true;
+            this.textContent = 'Generating...';
+            try {
+                const res = await fetch('/api/generate', {method: 'POST'});
+                const data = await res.json();
+                if (data.success) {
+                    const content = document.getElementById('songContent');
+                    content.innerHTML = data.song.split('\n').map(line => 
+                        `<div class="song-line">${line}</div>`
+                    ).join('');
+                    document.getElementById('songDisplay').classList.add('show');
+                    showMessage('Song generated!');
+                } else {
+                    showMessage(data.error, true);
+                }
+            } catch (e) {
+                showMessage('Error: ' + e.message, true);
+            }
+            this.disabled = false;
+            this.textContent = 'Generate Song';
+        };
+    </script>
 </body>
 </html>
