@@ -116,6 +116,71 @@
             line-height: 1.6;
             color: #333;
         }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .toggle-label {
+            color: white;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: 0.3s;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: white;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        .slider:before {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -123,6 +188,14 @@
     <div class="button-container">
         <button id="scrapeButton">Scrape Maroon 5 lyrics</button>
         <p>Note: Scraping can take up to 10 minutes.</p>
+        <div class="toggle-container">
+            <span class="toggle-label">Unigram</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="modeToggle">
+                <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Bigram</span>
+        </div>
         <button id="trainButton">Train Unigram Model</button>
         <button id="generateButton">Generate Song</button>
     </div>
@@ -134,6 +207,22 @@
     </div>
 
     <script>
+        // Global variable for unigram/bigram mode
+        let unigram = true;
+
+        // Update button text based on mode
+        function updateButtonText() {
+            const trainButton = document.getElementById('trainButton');
+            trainButton.textContent = unigram ? 'Train Unigram Model' : 'Train Bigram Model';
+        }
+
+
+        // Toggle switch handler
+        document.getElementById('modeToggle').addEventListener('change', function() {
+            unigram = !this.checked; // When checked (bigram), unigram = false
+            updateButtonText();
+        });
+
         function showMessage(text, isError = false) {
             const msg = document.getElementById('message');
             msg.textContent = text;
@@ -159,6 +248,7 @@
             this.disabled = true;
             this.textContent = 'Training...';
             try {
+                getUnigramVal()
                 const res = await fetch('/api/train', {method: 'POST'});
                 const data = await res.json();
                 showMessage(data.success ? data.message : data.error, !data.success);
@@ -173,6 +263,7 @@
             this.disabled = true;
             this.textContent = 'Generating...';
             try {
+                getUnigramVal()
                 const res = await fetch('/api/generate', {method: 'POST'});
                 const data = await res.json();
                 if (data.success) {

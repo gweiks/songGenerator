@@ -1,0 +1,63 @@
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767574882481,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":500,"ok":false},"timestamp":1767574882502,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:234","message":"save() error","data":{"error":"Unexpected token '<', \"<!doctype \"... is not valid JSON"},"timestamp":1767574882502,"sessionId":"debug-session","runId":"run1","hypothesisId":"A,B,C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767574883362,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":500,"ok":false},"timestamp":1767574883387,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:234","message":"save() error","data":{"error":"Unexpected token '<', \"<!doctype \"... is not valid JSON"},"timestamp":1767574883388,"sessionId":"debug-session","runId":"run1","hypothesisId":"A,B,C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767574918658,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":500,"ok":false},"timestamp":1767574918691,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:234","message":"save() error","data":{"error":"Unexpected token '<', \"<!doctype \"... is not valid JSON"},"timestamp":1767574918691,"sessionId":"debug-session","runId":"run1","hypothesisId":"A,B,C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767574951342,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":500,"ok":false},"timestamp":1767574951376,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:234","message":"save() error","data":{"error":"Unexpected token '<', \"<!doctype \"... is not valid JSON"},"timestamp":1767574951377,"sessionId":"debug-session","runId":"run1","hypothesisId":"A,B,C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767574996174,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767574996190,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767574996191,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575003411,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575003423,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575003425,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":false},"timestamp":1767575018397,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575018408,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":false},"timestamp":1767575018409,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":false},"timestamp":1767575074004,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575074029,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":false},"timestamp":1767575074030,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575083421,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575083444,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575083445,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575105902,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575105911,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575105911,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575123198,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575123209,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575123210,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575135118,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575135131,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575135132,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575149138,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575149153,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575149154,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":false},"timestamp":1767575160834,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575160843,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":false},"timestamp":1767575160844,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":false},"timestamp":1767575177867,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575177894,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":false},"timestamp":1767575177895,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":false},"timestamp":1767575384749,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575384767,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":false},"timestamp":1767575384768,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":false},"timestamp":1767575387317,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575387333,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":false},"timestamp":1767575387334,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575390638,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575390666,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575390668,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575442482,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575442493,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575442494,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575456548,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575456572,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575456574,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}
+{"location":"home.html:219","message":"getUnigramVal() called","data":{"unigram":true},"timestamp":1767575475943,"sessionId":"debug-session","runId":"run1","hypothesisId":"D"}
+{"location":"home.html:225","message":"save() response received","data":{"status":200,"ok":true},"timestamp":1767575475975,"sessionId":"debug-session","runId":"run1","hypothesisId":"C,D"}
+{"location":"home.html:230","message":"save() response data","data":{"success":true,"unigram":true},"timestamp":1767575475976,"sessionId":"debug-session","runId":"run1","hypothesisId":"C"}

@@ -1,6 +1,9 @@
-from flask import Flask, send_file, jsonify
+from multiprocessing import process
+from flask import Flask, send_file, jsonify, request
 import os
 import time
+from numpy.ma.core import true_divide
+from pandas.core.config_init import data_manager_doc
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -12,10 +15,20 @@ app = Flask(__name__)
 
 # Store chain globally
 chain = None
+unigram = True
 
 @app.route('/')
 def home():
     return send_file('home.html')
+
+@app.route("/api/save", methods=['POST'])
+def save():
+    global unigram
+
+    data = request.get_json(silent=True) or {}
+    value = data.get("value")
+    unigram = bool(value)
+    return jsonify({'success': True, 'unigram': unigram})
 
 @app.route('/api/scrape', methods=['POST'])
 def api_scrape():
@@ -28,11 +41,12 @@ def api_scrape():
 @app.route('/api/train', methods=['POST'])
 def api_train():
     global chain
+
     try:
         if not os.path.exists('maroon_5_lyrics.csv'):
             return jsonify({'success': False, 'error': 'Please scrape lyrics first'}), 400
         df = pd.read_csv('maroon_5_lyrics.csv')
-        chain = train_model(df)
+        chain = train_model(df, unigram)
         with open('chain.json', 'w') as f:
             json.dump(chain, f)
         return jsonify({'success': True, 'message': 'Model trained successfully'})
@@ -42,6 +56,7 @@ def api_train():
 @app.route('/api/generate', methods=['POST'])
 def api_generate():
     global chain
+
     try:
         if chain is None:
             if os.path.exists('chain.json'):
@@ -49,7 +64,7 @@ def api_generate():
                     chain = json.load(f)
             else:
                 return jsonify({'success': False, 'error': 'Please train model first'}), 400
-        song = generate_song(chain)
+        song = generate_song(chain, unigram)
         return jsonify({'success': True, 'song': song})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -107,7 +122,20 @@ def scrape_lyrics():
     return df
 
 
-def train_model(df):
+def preprocess_lyrics(lyrics):
+    all_lyrics = []
+    for lyric in lyrics:
+        text = lyric.lower()
+        text = re.sub(r'[^a-z\s]', '', text)
+        lines = text.split('\n')
+
+        lines[0] = "<START> " + lines[0]
+        lines[-1] = lines[-1] + " <END>"
+        all_lyrics.append(lines)
+    return all_lyrics
+
+
+def train_model(df, unigram):
     """
     Trains the model on the lyrics.
     Args:
@@ -117,27 +145,19 @@ def train_model(df):
     """
 
     lyrics = df["Lyrics"].tolist()
-    all_lyrics = []
+    processed_lyrics = preprocess_lyrics(lyrics)
 
-    for lyric in lyrics:
-        text = lyric.lower()
-        text = re.sub(r'[^a-z\s]', '', text)
-        lines = text.split('\n')
-
-        #add the start and end tokens to the lyrics so we know where to start and end the song
-        lines[0] = "<START> " + lines[0]
-        lines[-1] = lines[-1] + " <END>"
-
-        all_lyrics.append(lines)
-    
     #create a dictionary of the words and the words that follow them
     chain = {"<START>": []}
 
-    for lines in all_lyrics:
+    for lyrics in processed_lyrics:
         words_in_song = []
 
-        for i in range(len(lines)):
-            words = (lines[i]).split()
+        for i in range(len(lyrics)):
+            words = (lyrics[i]).split()
+
+            if not unigram and i == 0:
+                chain[(None, "<START>")].append(words[1])
 
             if i > 0:
                 words.insert(0, "<N>")
@@ -145,18 +165,17 @@ def train_model(df):
             for word in words:
                 words_in_song.append(word)
 
-        for j in range(len(words_in_song) - 1):
-            #if the word is not in the dictionary, add it
-            if words_in_song[j] not in chain:
-                chain[words_in_song[j]] = []
-
-            #add the word and the word that follows it to the dictionary
-            chain[words_in_song[j]].append(words_in_song[j + 1])
+    nGram = 1 if unigram else 2
+    for j in range(len(words_in_song) - nGram):
+        key = tuple(words_in_song[j:j + nGram])
+        if key not in chain:
+            chain[key] = []
+        chain[key].append(words_in_song[j + nGram])
 
     return chain
 
 
-def generate_song(chain):
+def generate_song(chain, unigram = True):
     """
     Args:
         - chain: a dict representing a unigram Markov chain
@@ -164,17 +183,19 @@ def generate_song(chain):
     Returns:
         A string representing the randomly generated song.
     """
-    #Initialize the words list with the first word (randomly chosen from the start token)
-    words = [random.choice(chain["<START>"])]
+    #Initialize the words list with the tuple (randomly chosen from the start token)
+    if unigram:
+        words = [random.choice(chain[("<START>")])] 
+        current_tuple = words[0]
+    else:
+        words = [random.choice(chain[(None, "<START>")])]
+        current_tuple = ("<START>", words[0])
 
-    #Generate the next word, appending to the words list
-    current_word = words[0]
-
-    #Generate the next word until the end token is reached
-    while (current_word != "<END>"):
-        next_word = random.choice(chain[current_word])
+    #until we reach the end, continue down the markov chain finding the next word
+    while ("<END>" not in current_tuple):
+        next_word = random.choice(chain[current_tuple])
         words.append(next_word)
-        current_word = next_word
+        current_tuple = (next_word) if unigram else (current_tuple[1], next_word)
 
     # join the words together into a string with line breaks
     lyrics = " ".join(words[:-1])
