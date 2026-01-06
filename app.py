@@ -198,8 +198,8 @@ def generate_song(chain, unigram = True):
     while ("<END>" not in current_tuple):
         next_word = random.choice(chain[current_tuple])
         words.append(next_word)
-        current_tuple = (next_word) if unigram else (current_tuple.split(" ", 1)[0] + " " + next_word)
-
+        current_tuple = next_word if unigram else current_tuple.split(" ", 1)[1] + " " + next_word
+        
     # join the words together into a string with line breaks
     lyrics = " ".join(words[:-1])
     return "\n".join(lyrics.split("<N>"))

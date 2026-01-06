@@ -286,7 +286,7 @@
                     document.getElementById('songDisplay').classList.add('show');
                     showMessage('Song generated!');
                 } else {
-                    showMessage(data.error, true);
+                    showMessage('Train the corresponding model first', true);
                 }
             } catch (e) {
                 showMessage('Error: ' + e.message, true);
