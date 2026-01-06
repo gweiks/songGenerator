@@ -1,5 +1,5 @@
 from multiprocessing import process
-from flask import Flask, send_file, jsonify, request
+from flask import Flask, render_template, jsonify, request
 import os
 import time
 from numpy.ma.core import true_divide
@@ -19,7 +19,7 @@ unigram = True
 
 @app.route('/')
 def home():
-    return send_file('home.html')
+    return render_template('home.html')
 
 @app.route("/api/save", methods=['POST'])
 def save():
@@ -128,6 +128,13 @@ def scrape_lyrics():
 
 
 def preprocess_lyrics(lyrics):
+    """
+    Preprocesses lyrics by lowercasing, removing non-alphabetic characters, and adding start/end tokens.
+    Args:
+        lyrics: list of lyric strings (one string per song)
+    Returns:
+        List of lists, where each inner list contains the processed lyric lines for a song.
+    """
     all_lyrics = []
     for lyric in lyrics:
         text = lyric.lower()
@@ -142,11 +149,11 @@ def preprocess_lyrics(lyrics):
 
 def train_model(df, unigram):
     """
-    Trains the model on the lyrics.
+    Trains a unigram or bigram model on the lyrics.
     Args:
         df: pandas dataframe with the lyrics
     Returns:
-        chain: dictionary of the words and the words that follow them
+        chain: dictionary of the words (or pairs of words) and the words that follow them
     """
     lyrics = df["Lyrics"].tolist()
     print(len(lyrics))
@@ -185,7 +192,7 @@ def train_model(df, unigram):
 def generate_song(chain, unigram = True):
     """
     Args:
-        - chain: a dict representing a unigram Markov chain
+        - chain: a dict representing a unigram/bigram Markov chain
 
     Returns:
         A string representing the randomly generated song.
