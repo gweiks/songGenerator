@@ -26,8 +26,13 @@ def save():
     global unigram
 
     data = request.get_json(silent=True) or {}
-    value = data.get("value")
-    unigram = bool(value)
+    value = data.get("value", True)
+
+    if isinstance(value, bool):
+        unigram = value
+    else:
+        unigram = bool(value)
+
     return jsonify({'success': True, 'unigram': unigram})
 
 @app.route('/api/scrape', methods=['POST'])
@@ -143,12 +148,13 @@ def train_model(df, unigram):
     Returns:
         chain: dictionary of the words and the words that follow them
     """
-
     lyrics = df["Lyrics"].tolist()
+    print(len(lyrics))
     processed_lyrics = preprocess_lyrics(lyrics)
+    nGram = 1 if unigram else 2
 
     #create a dictionary of the words and the words that follow them
-    chain = {"<START>": []}
+    chain = {"<START>":[]}
 
     for lyrics in processed_lyrics:
         words_in_song = []
@@ -156,8 +162,8 @@ def train_model(df, unigram):
         for i in range(len(lyrics)):
             words = (lyrics[i]).split()
 
-            if not unigram and i == 0:
-                chain[(None, "<START>")].append(words[1])
+            if i == 0:
+                chain["<START>"].append(words[1])
 
             if i > 0:
                 words.insert(0, "<N>")
@@ -165,12 +171,13 @@ def train_model(df, unigram):
             for word in words:
                 words_in_song.append(word)
 
-    nGram = 1 if unigram else 2
-    for j in range(len(words_in_song) - nGram):
-        key = tuple(words_in_song[j:j + nGram])
-        if key not in chain:
-            chain[key] = []
-        chain[key].append(words_in_song[j + nGram])
+        for j in range(len(words_in_song) - nGram):
+            key = words_in_song[j]
+            if nGram == 2:
+                key += (" " + words_in_song[j + 1])
+            if key not in chain:
+                chain[key] = []
+            chain[key].append(words_in_song[j + nGram])
 
     return chain
 
@@ -184,18 +191,14 @@ def generate_song(chain, unigram = True):
         A string representing the randomly generated song.
     """
     #Initialize the words list with the tuple (randomly chosen from the start token)
-    if unigram:
-        words = [random.choice(chain[("<START>")])] 
-        current_tuple = words[0]
-    else:
-        words = [random.choice(chain[(None, "<START>")])]
-        current_tuple = ("<START>", words[0])
+    words = [random.choice(chain["<START>"])] 
+    current_tuple = words[0] if unigram else "<START> " + words[0]
 
     #until we reach the end, continue down the markov chain finding the next word
     while ("<END>" not in current_tuple):
         next_word = random.choice(chain[current_tuple])
         words.append(next_word)
-        current_tuple = (next_word) if unigram else (current_tuple[1], next_word)
+        current_tuple = (next_word) if unigram else (current_tuple.split(" ", 1)[0] + " " + next_word)
 
     # join the words together into a string with line breaks
     lyrics = " ".join(words[:-1])

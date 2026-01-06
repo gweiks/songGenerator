@@ -217,10 +217,21 @@
         }
 
 
+        async function getUnigramVal() {
+        // Sends the current JS "unigram" boolean to Flask
+            await fetch('/api/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ value: unigram })
+            });
+        }
+
+
         // Toggle switch handler
-        document.getElementById('modeToggle').addEventListener('change', function() {
-            unigram = !this.checked; // When checked (bigram), unigram = false
+        document.getElementById('modeToggle').addEventListener('change', async function() {
+            unigram = !this.checked; // checked means Bigram in your UI
             updateButtonText();
+            await getUnigramVal();
         });
 
         function showMessage(text, isError = false) {
@@ -256,7 +267,8 @@
                 showMessage('Error: ' + e.message, true);
             }
             this.disabled = false;
-            this.textContent = 'Train Unigram Model';
+            this.textContent = updateButtonText();
+            ;
         };
 
         document.getElementById('generateButton').onclick = async function() {
