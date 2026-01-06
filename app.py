@@ -1,9 +1,6 @@
-from multiprocessing import process
 from flask import Flask, render_template, jsonify, request
 import os
 import time
-from numpy.ma.core import true_divide
-from pandas.core.config_init import data_manager_doc
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd

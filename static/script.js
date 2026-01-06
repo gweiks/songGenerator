@@ -20,7 +20,7 @@ async function getUnigramVal() {
 
 // Toggle switch handler
 document.getElementById('modeToggle').addEventListener('change', async function() {
-    unigram = !this.checked; // checked means Bigram in your UI
+    unigram = !this.checked; // checked means Bigram in UI
     updateButtonText();
     await getUnigramVal();
 });

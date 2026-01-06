@@ -8,9 +8,40 @@
 </head>
 <body>
     <header>Maroon 5 Song Generator</header>
-    <div class="button-container">
+    <div class="container">
+        <p>
+            This site generates song lyrics in the style of Maroon 5 using a Markov chain model.
+            It scrapes Maroon 5 lyrics from 
+            <a href="https://www.streetdirectory.com" target="_blank" rel="noopener noreferrer">
+                www.streetdirectory.com
+            </a>
+            and analyzes them to produce new, similar lyrics.
+            <br><br>
+            There are two available model training methods:
+        </p>
+        
+        <ul>
+            <li>
+                <strong>Unigram Model</strong><br>
+                The unigram model maps each word from Maroon 5 songs to the words that most commonly
+                follow it. Words that appear more frequently after a given word are more likely to be
+                generated.
+            </li>
+            <br>
+            <li>
+                <strong>Bigram Model</strong><br>
+                The bigram model uses pairs of words as keys instead of single words. This makes the
+                output more coherent and realistic, but less creative. As a result, the lyrics may
+                regurgitate original songs.
+            </li>
+        </ul>
+        <p>
+            Note: Maroon 5 lyrics have all been prescraped but you are welcome to rescrape them if you wish. It may take 10 minutes to scrape.
+        </p>
+        <br>
+    </div>
+    <div class="container">
         <button id="scrapeButton">Scrape Maroon 5 lyrics</button>
-        <p>Note: Scraping can take up to 10 minutes.</p>
         <div class="toggle-container">
             <span class="toggle-label">Unigram</span>
             <label class="toggle-switch">
@@ -22,7 +53,6 @@
         <button id="trainButton">Train Unigram Model</button>
         <button id="generateButton">Generate Song</button>
     </div>
-    
     <div id="message" class="message"></div>
     <div id="songDisplay" class="song-display">
         <h3>Generated Song</h3>
